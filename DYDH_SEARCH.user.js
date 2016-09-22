@@ -9,7 +9,7 @@
 // @grant        none
 // @run-at       document_start
 
-// @version      0.0.1
+// @version      1.0.0
 // ==/UserScript==
 
 
