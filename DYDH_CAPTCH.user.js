@@ -4,7 +4,7 @@
 // @description
 // @authuer      Kevin
 // @icon         http://www.diyidanhao.com/favicon.ico?&delivery=1&stock=1&wtype=1&psort=3
-// @version      1.0.1
+// @version      1.0.2
 // @match        http://www.diyidanhao.com/user/index/
 // ==/UserScript==
 
@@ -39,7 +39,9 @@
     //}
 
     function compare(data,a,b){
-        return data[a*4+0]==data[b*4+0]&&data[a*4+1]==data[b*4+1]&&data[a*4+2]==data[b*4+2]&&data[a*4+0]>0&&data[a*4+1]>0&&data[a*4+2]>0;
+        var a_ = a*4;
+        var b_ = b*4;
+        return data[a_+0]==data[b_+0]&&data[a_+1]==data[b_+1]&&data[a_+2]==data[b_+2]&&(data[a_+0]+data[a_+1]+data[a_+2])>0;
     }
 
     function comparePoint(data,a,c){
@@ -48,7 +50,7 @@
 
     function findBack(data){
         for(var x = 1;x<IMG_WIDTH-4;x++){
-            for(var y = 1;y<IMG_HEIGHT;y++){
+            for(var y = 1;y<IMG_HEIGHT-2;y++){
                 var a = x+y*IMG_WIDTH;
                 if(compare(data,a,a+1)&&compare(data,a,a+2)&&compare(data,a,a+3)&&compare(data,a,a+IMG_WIDTH)&&compare(data,a,a+IMG_WIDTH+1)&&compare(data,a,a+IMG_WIDTH+2)&&compare(data,a,a+IMG_WIDTH+3)){
                     return [data[a*4+0],data[a*4+1],data[a*4+2]];
@@ -104,10 +106,10 @@
         }
         return sum;
     }
-
-    $(document).ready(function(){
-        var img = $('img[src="/verify/"]').get(0);
+    var img = $('img[src="/verify/"]').get(0);
+    $(img).load(function(){
         var canvas = document.createElement("canvas");
+        //$(img).after(canvas);
         canvas.width = IMG_WIDTH;
         canvas.height = IMG_HEIGHT;
         var ctx = canvas.getContext("2d");
@@ -137,7 +139,6 @@
                 }
             }
         }
-        //$(img).after(canvas);
         $('input[name="code"]').val(code);
     });
 })();
